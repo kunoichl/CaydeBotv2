@@ -1,10 +1,10 @@
-const Discord = require('discord.js')
-const Cayde = new Discord.Client()
-const Music = require('discord.js-musicbot-addon')
-const prefix = "``"
-const createEmbed = require('embed-creator')
-const coinflip = require('coinflip')
-const roller = require('roller')
+const Discord = require('discord.js');
+const Cayde = new Discord.Client();
+const Music = require('discord.js-musicbot-addon');
+const prefix = "``";
+const createEmbed = require('embed-creator');
+const coinflip = require('coinflip');
+const roller = require('roller');
 
 const music = new Music(Cayde, {
  prefix: prefix,
@@ -43,22 +43,22 @@ Cayde.login(process.env.TOKEN)
 
 Cayde.on('ready', () => {
 
- console.log(`Master of incompetence, Cayde-6, reporting for duty! Currently serving ${Cayde.guilds.size} servers!`)
+ console.log(`Master of incompetence, Cayde-6, reporting for duty! Currently serving ${Cayde.guilds.size} servers!`);
  Cayde.user.setActivity(`over ${Cayde.guilds.size} servers!`, { type: 'WATCHING' })
  .then(console.log(`Activity set to "Watching over ${Cayde.guilds.size} servers!"!`))
  .catch(console.error);
- Cayde.user.setStatus("online")
-})
+ Cayde.user.setStatus("online");
+});
 
 Cayde.on("guildCreate", guild => {
- console.log(`New guild joined: ${guild.name}, with ID: ${guild.id}. This guild has ${guild.memberCount} members!`)
+ console.log(`New guild joined: ${guild.name}, with ID: ${guild.id}. This guild has ${guild.memberCount} members!`);
  Cayde.user.setActivity(`over ${Cayde.guilds.size} servers!`, { type: 'WATCHING' })
  .then(console.log(`Activity set to "Watching over ${Cayde.guilds.size} servers!"!`))
  .catch(console.error);
 });
 
 Cayde.on("guildDelete", guild => {
- console.log(`Removed from: ${guild.name}, with ID: ${guild.id}.`)
+ console.log(`Removed from: ${guild.name}, with ID: ${guild.id}.`);
  Cayde.user.setActivity(`over ${Cayde.guilds.size} servers!`, { type: 'WATCHING' })
  .then(console.log(`Activity set to "Watching over ${Cayde.guilds.size} servers!"!`))
  .catch(console.error);
@@ -66,11 +66,11 @@ Cayde.on("guildDelete", guild => {
 
 Cayde.on('guildMemberAdd', member => {
  member.send(`Welcome to ${member.guild.name}, " + member.displayName + "! If you need help using me, use ``help in any channel that allows bot replies, and I'll send a DM containing all of my commands!`)
-})
+});
 
 Cayde.on("message", message => {
 
- let cmdUser = message.guild.member(message.author)
+ let cmdUser = message.guild.member(message.author);
  let messageArray = message.content.split(" ");
  let cmd = messageArray[0];
  let args = messageArray.slice(1);
