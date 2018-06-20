@@ -14,7 +14,8 @@ const music = new Music(Cayde, {
   botOwner: process.env.OWNER_ID,
   youtubeKey: process.env.YT_API_KEY,
   requesterName: true,
-  disableHelp: true
+  disableHelp: true,
+  embedColor: "#FFD1DC"
 });
 
 //eval function, don't touch ever thanks
@@ -190,7 +191,6 @@ Cayde.on("message", message => {
     console.log("rolling " + n_dice + "d" + n_sides);
     var dice = roller.roll(n_dice, n_sides);
 
-    var message_content = "";
     var sum;
 
     if(n_dice > 1) {
@@ -198,9 +198,9 @@ Cayde.on("message", message => {
         return prev + curr;
       });
 
-      message_content = "<@" + message.author.id + ">, your dice rolls are: " + dice.join(" + ") + " = (" + sum + ")";
+      message.channel.send("<@" + message.author.id + ">, your dice rolls are: " + dice.join(" + ") + " = (" + sum + ")");
     } else {
-      message_content = message.sender + ": " + dice[0];
+      message.channel.send(message.sender + ": " + dice[0]);
     }
 
     if(message_content.length > 2000) {
@@ -209,8 +209,6 @@ Cayde.on("message", message => {
       Cayde.sendMessage(sum_message);
       return;
     }
-
-    message.channel.send(message_content);
     }
       }
     else if(cmd === `${prefix}kick`)
@@ -372,8 +370,7 @@ Cayde.on("message", message => {
         }
       else if(cmd === `${prefix}servericon`)
         {
-          console.log(message.guild.serverURL + `Got guild icon!`)
-          .then(message.channel.send(message.guild.iconURL))
+          message.channel.send(message.guild.serverURL)
         }
         else if(cmd === `${prefix}say`)
         {
@@ -392,20 +389,21 @@ Cayde.on("message", message => {
       else if(cmd === `${prefix}8ball`)
          {
         function eightBallAnswer() {
-  var randAnswer = ["Oh, totally.",
-             "What? No!",
-             "Very unlikely, but sure.",
-             "Oh dear God, NO.",
-             "Possibly? It's very hard to say.",
-             "Why would you ever do that?! That's a definite no, friend.",
-             "Yeah, that sounds like a great idea!",
-             "Uh... The rock is speaking in Hive gibberish again. Get back to me on that.",
-             "What the hell is going on with this rock? Uh... give me a minute.",
-             "What is your problem? That sounds terrible!",
-             "Hell yeah, sounds like a plan!",
-             "Um, I... don't actually know.",
-             "I'm seriously questioning why you would ever do that. How about no.",
-             ""]
+var randAnswer = ["Oh, totally.",
+                 "What? No!",
+                 "Very unlikely, but sure.",
+                 "Oh dear God, NO.",
+                 "Possibly? It's very hard to say.",
+                 "Why would you ever do that?! That's a definite no, friend.",
+                 "Yeah, that sounds like a great idea!",
+                 "Uh... The rock is speaking in Hive gibberish again. Get back to me on that.",
+                 "What the hell is going on with this rock? Uh... give me a minute.",
+                 "What is your problem? That sounds terrible!",
+                 "Hell yeah, sounds like a plan!",
+                 "Um, I... don't actually know.",
+                 "I'm seriously questioning why you would ever do that. How about no.",
+                 "Ugh. Eris stole the rock back. Ask again some other time."
+                ]
   
   return rand[Math.floor(Math.random()*randAnswer.length)];
   }
@@ -415,9 +413,14 @@ Cayde.on("message", message => {
         {
           if(!cmdUser.hasPermission('MANAGE_NICKNAMES'))
             return message.channel.send(wrongPerm)
+
           if(!message.guild.me.hasPermission('MANAGE_NICKNAMES'))
-            return message.channel.send("Hm. I... Can't change my own nickname, apparently.")
+            return message.channel.send("Hm. I... can't change my own nickname, apparently.")
+
           message.guild.me.setNickname(message.content.replace('``nickname ', ''))
+
+          if(message.content = "")
+            return message.channel.send("This isn't even that good of a nickname. Hell, I don't even think this'd work!")
           .then(console.log("Nickname changed to'" + message.guild.me.nickname + "' in " + message.guild))
           .then(message.channel.send("Nickname changed successfully."))
         }
@@ -440,8 +443,8 @@ Cayde.on("message", message => {
 
       message.channel.send(clean(evaled), {code:"xl"});
     } catch (err) {
-      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+      message.channel.send(`This is invalid code. And that's a shame. Here's the error report I received: \`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
     }
   }
 });
-//446 lines of pure code, :FeelsGoodMan:
+//448 lines of pure code, :FeelsGoodMan:
